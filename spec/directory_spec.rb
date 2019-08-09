@@ -1,4 +1,4 @@
-require_relative "../directory"
+require_relative "../lib/directory"
 
 describe "directory" do
   it 'returns headings when headings called' do
