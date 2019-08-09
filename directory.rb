@@ -15,23 +15,24 @@ students = [
 
 # prints out the titles  
 def print_header
-  puts "The students of Villains Academy"
-  puts "-------------"
+  return "The students of Villains Academy\n-------------"
 end
 
 # prints out all the students
 def print(names)
+  output=""
   names.each do |student|
-    puts student
+    output = output + student + "\n"
   end
+  return output
 end
 
 # print the total number of students
 def print_footer(names)
-  puts "Overall, we have #{names.count} great students"
+  return "Overall, we have #{names.count} great students"
 end
 
 #calling the methods
-print_header
-print(students)
-print_footer(students)
+puts print_header
+puts print(students)
+puts print_footer(students)
