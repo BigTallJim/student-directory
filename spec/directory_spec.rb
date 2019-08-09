@@ -8,6 +8,6 @@ describe "directory" do
     expect(print_footer(["Evil1","Evil2","Evil3"])).to eq ("Overall, we have 3 great students")
   end
     it 'returns list of villians' do
-    expect(print(["Evil1","Evil2","Evil3"])).to eq ("Evil1\nEvil2\nEvil3\n")
+    expect(print(["Evil1", :november],["Evil2", :november],["Evil3", :november])).to eq ("Evil1\nEvil2\nEvil3\n")
   end
 end
