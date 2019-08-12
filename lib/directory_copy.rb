@@ -1,3 +1,10 @@
+# COPY for Excercises in Step 8
+
+start_letter = "J"
+filter_letter = false
+filter_length = false
+name_length = 12
+
 # All the students in an array
 students = [
   {name: "Dr. Hannibal Lecter", cohort: :november},
@@ -20,9 +27,27 @@ def print_header
 end
 
 # prints out all the students
-def print(students)
-  students.each do |student|
-    puts "#{student[:name]} (#{student[:cohort]} cohort)"
+
+def print(students, filter_letter, filter_length, start_letter, name_length)
+puts filter_letter
+puts filter_length
+  students.each.with_index(1) do |student, index|
+    case
+      when filter_letter && filter_length
+        if student[:name].slice(0) == start_letter && student[:name].length >= name_length
+          puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort)"
+        end
+      when filter_letter && !filter_length
+        if student[:name].slice(0) == start_letter
+          puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort)"
+        end
+      when !filter_letter && filter_length
+        if student[:name].length >= name_length
+          puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort)"
+        end
+      else
+        puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort)"
+    end
   end
 end
 
@@ -31,11 +56,11 @@ def print_footer(students)
   puts "Overall, we have #{students.count} great students"
 end
 
-def input_students
+def input_students(students)
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
   #create an empty array
-  students = []
+  #students = []
   # get the first name
   name = gets.chomp
   #while the name is not empty, repeat this code
@@ -50,7 +75,7 @@ def input_students
 end
 
 #calling the methods
-students = input_students
+students = input_students(students)
 print_header
-print(students)
+print(students, filter_letter, filter_length, start_letter, name_length)
 print_footer(students)
