@@ -29,29 +29,32 @@ end
 # prints out all the students
 
 def print(students, filter_letter, filter_length, start_letter, name_length)
-  students.each.with_index(1) do |student, index|
+  index_count = 0
+  while index_count < students.length
+    student = students[index_count]
     case
       when filter_letter && filter_length
         if student[:name].slice(0) == start_letter && student[:name].length >= name_length
-          print_line(student, index)
+          print_line(student, index_count)
         end
       when filter_letter && !filter_length
         if student[:name].slice(0) == start_letter
-          print_line(student, index)
+          print_line(student, index_count)
         end
       when !filter_letter && filter_length
         if student[:name].length >= name_length
-          print_line(student, index)
+          print_line(student, index_count)
         end
       else
-        print_line(student, index)
+        print_line(student, index_count)
     end
+    index_count += 1
   end
 end
 
 #prints out the details line
 def print_line(student, index)
-  puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort)"
+  puts "#{index+1}. #{student[:name]} (#{student[:cohort]} cohort)"
 end
 
 # print the total number of students
