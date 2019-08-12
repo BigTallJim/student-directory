@@ -54,7 +54,7 @@ end
 
 #prints out the details line
 def print_line(student, index)
-  puts "#{index+1}. #{student[:name]} (#{student[:cohort]} cohort)"
+  puts "#{index+1}. #{student[:name]} (#{student[:cohort]} cohort), Hobbies:#{student[:hobbies]}, COB:#{student[:cob]}, Height:#{student[:height]}"
 end
 
 # print the total number of students
@@ -63,18 +63,25 @@ def print_footer(students)
 end
 
 def input_students(students)
-  puts "Please enter the names of the students"
+  puts "Please enter the names of the students, hobbies, country of birth and height comma delimited"
   puts "To finish, just hit return twice"
   #create an empty array
   #students = []
   # get the first name
   name = gets.chomp
+  name_array = name.split(",")
+
   #while the name is not empty, repeat this code
   while !name.empty? do
     # add the student hash to the array
-    students.push({name: name, cohort: :november})
-    puts "Now we have #{students.count} students"
+    if name_array.length == 4
+      students.push({name: name_array[0], cohort: :november, hobbies: name_array[1], cob: name_array[2], height: name_array[3]})
+      puts "Now we have #{students.count} students"
+    else
+      puts "Invalid input, please try again"
+    end
     name = gets.chomp
+    name_array = name.split(",")
   end
   #return the array of students
   students
