@@ -54,7 +54,9 @@ end
 
 #prints out the details line
 def print_line(student, index)
-  puts "#{index+1}. #{student[:name]} (#{student[:cohort]} cohort), Hobbies:#{student[:hobbies]}, COB:#{student[:cob]}, Height:#{student[:height]}"
+  cohort_merge = "(" + student[:cohort].to_s + " cohort)"
+  index_string = (index+1).to_s + "."
+  puts "#{index_string.to_s.center(3)} #{student[:name].center(30)} #{cohort_merge.center(10)}, Hobbies:#{student[:hobbies].to_s.center(30)}, COB:#{student[:cob].to_s.center(10)}, Height:#{student[:height].to_s.center(6)}"
 end
 
 # print the total number of students
