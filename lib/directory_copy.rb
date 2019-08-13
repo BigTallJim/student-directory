@@ -7,17 +7,17 @@ name_length = 12
 
 # All the students in an array
 students = [
-  {name: "Dr. Hannibal Lecter", cohort: :november},
-  {name: "Darth Vader", cohort: :november},
-  {name: "Nurse Ratched", cohort: :november},
-  {name: "Michael Corleone", cohort: :november},
+  {name: "Dr. Hannibal Lecter", cohort: :january},
+  {name: "Darth Vader", cohort: :february},
+  {name: "Nurse Ratched", cohort: :march},
+  {name: "Michael Corleone", cohort: :april},
   {name: "Alex DeLarge", cohort: :november},
   {name: "The Wicked Witch of the West", cohort: :november},
   {name: "Terminator", cohort: :november},
-  {name: "Freddy Krueger", cohort: :november},
+  {name: "Freddy Krueger", cohort: :april},
   {name: "The Joker", cohort: :november},
   {name: "Joffrey Baratheon", cohort: :november},
-  {name: "Norman Bates", cohort: :november}
+  {name: "Norman Bates", cohort: :april}
 ]
 
 # prints out the titles  
@@ -62,13 +62,18 @@ end
 # print the total number of students
 def print_footer(students)
   puts "Overall, we have #{students.count} great students"
+  if students.length > 1
+    puts "Overall, we have #{students.count} great students"
+  else
+    puts "Overall, we have 1 lonely student"
+  end
 end
 
 def input_students(students)
   puts "Please enter the names of the students, cohort, hobbies, country of birth and height comma delimited"
   puts "To finish, just hit return twice"
   #create an empty array
-  #students = []
+  students = []
   # get the first name
   name = gets.chomp
   name_array = name.split(",")
@@ -91,7 +96,11 @@ def input_students(students)
       
       students.push({name: student_name, cohort: cohort, hobbies: hobbies, cob: cob, height: height})
       
-      puts "Now we have #{students.count} students"
+      if students.length > 1
+        puts "Now we have #{students.count} students"
+      else
+        puts "Now we have 1 lonely student"
+      end
     else
       puts "Invalid input, please try again"
     end
@@ -102,8 +111,20 @@ def input_students(students)
   students
 end
 
+def unique_cohort(students)
+  students.map{|student| student[:cohort]}.uniq
+end
+
+def print_in_cohort_order(students, filter_letter, filter_length, start_letter, name_length, unique_cohort)
+  unique_cohort.each do |cohort|
+    cohort_map = students.select{|student| student[:cohort] == cohort}
+    print(cohort_map, filter_letter, filter_length, start_letter, name_length) 
+  end
+end
+
 #calling the methods
 students = input_students(students)
+unique_cohort = unique_cohort(students)
 print_header
-print(students, filter_letter, filter_length, start_letter, name_length)
+print_in_cohort_order(students, filter_letter, filter_length, start_letter, name_length, unique_cohort)
 print_footer(students)
