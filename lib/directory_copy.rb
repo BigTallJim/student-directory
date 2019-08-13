@@ -56,7 +56,7 @@ end
 def print_line(student, index)
   cohort_merge = "(" + student[:cohort].to_s + " cohort)"
   index_string = (index+1).to_s + "."
-  puts "#{index_string.to_s.center(3)} #{student[:name].center(30)} #{cohort_merge.center(10)}, Hobbies:#{student[:hobbies].to_s.center(30)}, COB:#{student[:cob].to_s.center(10)}, Height:#{student[:height].to_s.center(6)}"
+  puts "#{index_string.to_s.center(3)} #{student[:name].center(30)} #{cohort_merge.center(20)}, Hobbies:#{student[:hobbies].to_s.center(30)}, COB:#{student[:cob].to_s.center(10)}, Height:#{student[:height].to_s.center(6)}"
 end
 
 # print the total number of students
@@ -65,7 +65,7 @@ def print_footer(students)
 end
 
 def input_students(students)
-  puts "Please enter the names of the students, hobbies, country of birth and height comma delimited"
+  puts "Please enter the names of the students, cohort, hobbies, country of birth and height comma delimited"
   puts "To finish, just hit return twice"
   #create an empty array
   #students = []
@@ -76,8 +76,21 @@ def input_students(students)
   #while the name is not empty, repeat this code
   while !name.empty? do
     # add the student hash to the array
-    if name_array.length == 4
-      students.push({name: name_array[0], cohort: :november, hobbies: name_array[1], cob: name_array[2], height: name_array[3]})
+    if name_array.length == 5
+      student_name = name_array[0].strip
+      valid_cohort = [:january,:november,:december]
+      cohort = name_array[1].strip.to_sym
+      
+      if !valid_cohort.include?(cohort)
+        cohort = :november
+      end
+      
+      hobbies = name_array[2].strip
+      cob = name_array[3].strip
+      height = name_array[4].strip
+      
+      students.push({name: student_name, cohort: cohort, hobbies: hobbies, cob: cob, height: height})
+      
       puts "Now we have #{students.count} students"
     else
       puts "Invalid input, please try again"
