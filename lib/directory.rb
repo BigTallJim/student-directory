@@ -26,7 +26,7 @@ def input_students
   #while the name is not empty, repeat this code
   while !name.empty? do
     # add the student hash to the array
-    @students.push({name: name, cohort: :november})
+    add_students(name, :november)
     puts "Now we have #{@students.count} students"
     name = STDIN.gets.chomp
   end
@@ -74,7 +74,11 @@ end
   
 def try_load_students
   filename = ARGV.first
-  return if filename.nil?
+  
+  if filename.nil?
+    filename = "students.csv"
+  end
+  
   if File.exists?(filename)
     load_students(filename)
     puts "Loaded #{@students.count} from #{filename}"
@@ -89,9 +93,13 @@ def load_students(filename = "students.csv")
   file = File.open(filename, "r")
   file.readlines.each do |line|
     name, cohort = line.chomp.split(",")
-    @students << {name: name, cohort: cohort.to_sym}
+    add_students(name, cohort.to_sym)
   end
   file.close
+end
+
+def add_students(name, cohort)
+  @students << {name: name, cohort: cohort}
 end
 
 def process(selection)
@@ -103,7 +111,7 @@ def process(selection)
     when "3"
       save_students
     when "4"
-      try_load_students
+      load_students
     when "9"
         exit
     else
@@ -111,10 +119,7 @@ def process(selection)
   end
 end
 
-def check_for_input
-  puts ARGV.inspect
-end
-
 #calling the methods
 #check_for_input
+try_load_students
 interactive_menu
