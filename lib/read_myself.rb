@@ -1,0 +1,1 @@
+File.open($PROGRAM_NAME,"r") {|program| program.each {|line| puts line}}
