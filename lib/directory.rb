@@ -37,6 +37,7 @@ def input_students
   @students
 end
 
+# Menu loop until user exits
 def interactive_menu
   loop do
     # 1. print the menu and ask the user what to do
@@ -48,6 +49,7 @@ def interactive_menu
   end
 end
 
+# prints out the menu
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
@@ -56,6 +58,7 @@ def print_menu
   puts "9. Exit"
 end
 
+# prints out the list of students, which header and footer
 def show_students
   print_header
   print_students_list  
@@ -65,16 +68,15 @@ end
 #save the student to a csv file  
 def save_students(filename = "students.csv")
   # open the file
-  File.open(filename, "w") do |file|
+  CSV.open(filename, "w") do |file|
     @students.each do |student|
-      student_data = [student[:name], student[:cohort]]
-      csv_line = student_data.join(",")
-      file.puts csv_line
+      file << [student[:name], student[:cohort]]
     end
   end
   puts "#{@students.length} student(s) saved to #{filename}"
 end
-  
+
+# checks to see if input file can be loaded  
 def try_load_students
   filename = ARGV.first
   
@@ -85,6 +87,7 @@ def try_load_students
   end
 end
 
+# loads from the input file
 def load_students(filename = "students.csv")
   #open the file
   if File.exists?(filename)
@@ -99,15 +102,18 @@ def load_students(filename = "students.csv")
   end
 end
 
+# adds student hash to the array
 def add_students(name, cohort)
   @students << {name: name, cohort: cohort}
 end
 
+# prompt for input file name
 def get_filename
   puts "What file would you like to choose?"
   return gets.chomp
 end
 
+# check input and redirect as required
 def process(selection)
   puts "\e[H\e[2J"
   case selection
@@ -126,6 +132,6 @@ def process(selection)
   end
 end
 
-#calling the methods
+# Mainline
 try_load_students
 interactive_menu
