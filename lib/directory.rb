@@ -1,3 +1,5 @@
+require 'csv'
+
 @students = []  # An empty array which is accessable in all the methods
 
 # prints out the titles  
@@ -85,16 +87,13 @@ end
 
 def load_students(filename = "students.csv")
   #open the file
-  student_count = 0
   if File.exists?(filename)
-    File.open(filename, "r") do |file|
-      file.readlines.each do |line|
-        name, cohort = line.chomp.split(",")
+    student_file = CSV.read(filename)
+    student_file.each do |line|
+        name, cohort = line
         add_students(name, cohort.to_sym)
-        student_count += 1
-      end
     end
-    puts "#{student_count} student(s) loaded from #{filename}"
+    puts "#{student_file.count} student(s) loaded from #{filename}"
   else
     puts "Sorry, #{filename} doesn't exist."
   end
