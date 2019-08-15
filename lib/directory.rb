@@ -18,6 +18,7 @@ def print_footer
   puts "Overall, we have #{@students.count} great students"
 end
 
+# adds students to the list
 def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
@@ -48,8 +49,8 @@ end
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
-  puts "3. Save the list to students.csv"
-  puts "4. Load the list from students.csv"
+  puts "3. Save the list"
+  puts "4. Load the list"
   puts "9. Exit"
 end
 
@@ -60,9 +61,9 @@ def show_students
 end
 
 #save the student to a csv file  
-def save_students
+def save_students(filename = "students.csv")
   # open the file
-  file = File.open("students.csv", "w")
+  file = File.open(filename, "w")
   # process the rows
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
@@ -70,48 +71,56 @@ def save_students
     file.puts csv_line
   end
   file.close
+  puts "#{@students.length} student(s) saved to #{filename}"
 end
   
 def try_load_students
   filename = ARGV.first
   
   if filename.nil?
-    filename = "students.csv"
-  end
-  
-  if File.exists?(filename)
-    load_students(filename)
-    puts "Loaded #{@students.count} from #{filename}"
+    load_students()
   else
-    puts "Sorry, #{filename} doesn't exist."
-    exit
+    load_students(filename)
   end
 end
 
 def load_students(filename = "students.csv")
   #open the file
-  file = File.open(filename, "r")
-  file.readlines.each do |line|
-    name, cohort = line.chomp.split(",")
-    add_students(name, cohort.to_sym)
+  student_count = 0
+  if File.exists?(filename)
+    file = File.open(filename, "r")
+    file.readlines.each do |line|
+      name, cohort = line.chomp.split(",")
+      add_students(name, cohort.to_sym)
+      student_count += 1
+    end
+    file.close
+    puts "#{student_count} student(s) loaded from #{filename}"
+  else
+    puts "Sorry, #{filename} doesn't exist."
   end
-  file.close
 end
 
 def add_students(name, cohort)
   @students << {name: name, cohort: cohort}
 end
 
+def get_filename
+  puts "What file would you like to choose?"
+  return gets.chomp
+end
+
 def process(selection)
+  puts "\e[H\e[2J"
   case selection
     when "1"
       input_students
     when "2"
       show_students
     when "3"
-      save_students
+      save_students(get_filename)
     when "4"
-      load_students
+      load_students(get_filename)
     when "9"
         exit
     else
@@ -120,6 +129,5 @@ def process(selection)
 end
 
 #calling the methods
-#check_for_input
 try_load_students
 interactive_menu
